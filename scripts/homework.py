@@ -33,7 +33,7 @@ def bfs(layer: dict):
 	vertex_queue = deque()
 	components_cnt = 0
 
-	if layer.keys() == 0:
+	if len(layer.keys()) == 0:
 		return component_cnt
 
 	while len(visited.keys()) < len(layer.keys()):
