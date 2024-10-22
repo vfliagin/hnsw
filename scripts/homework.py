@@ -65,21 +65,42 @@ def count_components(hnsw):
 
 if __name__ == '__main__':
 
-	load_graph = False
+	load_graph_one = False
 
-	if not load_graph:
-		train_data = read_fbin('query.public.10K.fbin')
+	if not load_graph_one:
+		train_data = read_fbin('base.10M.fbin')
 
-		hnsw = HNSW(distance_func=l2_distance, m=16, m0=32, ef=10, ef_construction=64, neighborhood_construction = heuristic)
+		hnsw_one = HNSW(distance_func=l2_distance, m=32, m0=64, ef=10, ef_construction=64, neighborhood_construction = heuristic)
 		# Add data to HNSW
 		for x in tqdm(train_data):
-			hnsw.add(x)
+			hnsw_one.add(x)
 
-		with open('hnsw.pickle', 'wb') as f:
-			pickle.dump(hnsw, f)
+		with open('hnsw_one.pickle', 'wb') as f:
+			pickle.dump(hnsw_one, f)
 	else:
 
-		with open('hnsw.pickle', 'rb') as f:
-			hnsw = pickle.load(f)
+		with open('hnsw_one.pickle', 'rb') as f:
+			hnsw_one = pickle.load(f)
 
-	count_components(hnsw)
+	print('hnsw_one results:')
+	count_components(hnsw_one)
+
+	load_graph_two = False
+
+	if not load_graph_two:
+		train_data = read_fbin('base.10M.fbin')
+
+		hnsw_two = HNSW(distance_func=l2_distance, m=16, m0=32, ef=10, ef_construction=64, neighborhood_construction = heuristic)
+		# Add data to HNSW
+		for x in tqdm(train_data):
+			hnsw_two.add(x)
+
+		with open('hnsw_two.pickle', 'wb') as f:
+			pickle.dump(hnsw_two, f)
+	else:
+
+		with open('hnsw_two.pickle', 'rb') as f:
+			hnsw_two = pickle.load(f)
+
+	print('hnsw_two results:')
+	count_components(hnsw_two)
